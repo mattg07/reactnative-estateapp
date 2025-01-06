@@ -38,6 +38,7 @@ export default function Explore() {
           alignItems: "center",
         }}
       >
+        <AddPostForm onSubmit={handleSubmit} />
         <Text className="font-bold text-white font-rubik text-3xl">
           Explore new Chirps
         </Text>
@@ -46,7 +47,6 @@ export default function Explore() {
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => <Text className="text-gray-200 p-2">{item.content}</Text>}
         />
-        <AddPostForm onSubmit={handleSubmit} />
       </View>
     </SafeAreaView>
   );
