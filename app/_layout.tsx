@@ -2,6 +2,7 @@ import { SplashScreen, Stack } from "expo-router";
 import "./globals.css";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { SafeAreaView, View } from "react-native";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -19,5 +20,25 @@ export default function RootLayout() {
     }
   }, [fontsLoaded]);
   if (!fontsLoaded) return null;
-  return <Stack screenOptions={{headerShown: false}} />;
+  return (
+  <SafeAreaView className="bg-white" style={{flex: 1, backgroundColor: "#121212"}}>
+
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: "#121212" },
+        }}
+        >
+
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerTitle: "Sicker Smash",
+            headerLeft: () => <></>,
+          }}
+          />
+      </Stack>
+          </SafeAreaView>
+    
+  );
 }

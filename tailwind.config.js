@@ -19,6 +19,9 @@ module.exports = {
           200: "#0061FF1A",
           300: "#0061FF",
         },
+        background: {
+          100: "#121212,",
+        },
         accent: {
           100: "#FBFBFD",
         },
@@ -29,6 +32,8 @@ module.exports = {
           300: "#191D31",
         },
         danger: "#F75555",
+        violet: " #8E44AD",
+        dim: "#B0B0C0",
       },
     },
   },
