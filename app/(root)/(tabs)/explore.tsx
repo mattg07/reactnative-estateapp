@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import AddPostForm from "@/components/AddPostForm";
 import { fetchPosts, Posts } from "@/lib/api";
+import PostCard from "@/components/PostCard";
 
 
 export default function Explore() {
@@ -45,7 +46,8 @@ export default function Explore() {
         <FlatList
           data={posts}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Text className="text-gray-200 p-2">{item.content}</Text>}
+          contentContainerStyle={{paddingTop: 8}}
+          renderItem={({ item }) => <PostCard post={item} />}
         />
       </View>
     </SafeAreaView>
