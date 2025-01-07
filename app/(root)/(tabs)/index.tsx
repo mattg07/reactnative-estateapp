@@ -1,5 +1,6 @@
 import AuthForm from "@/components/AuthForm";
 import { supabase } from "@/lib/supabase";
+import { useUserInfo } from "@/lib/userContext";
 import { SignUpWithPasswordCredentials } from "@supabase/supabase-js";
 import { useState } from "react";
 import {
@@ -13,6 +14,7 @@ import {
 
 export default function Index() {
   const [loading, setLoading] = useState(false);
+  const { session } = useUserInfo(); // Get session from context
 
   const handleSignUp = async (credentials: SignUpWithPasswordCredentials) => {
     if (!("email" in credentials)) return;
@@ -28,12 +30,25 @@ export default function Index() {
     if (!("email" in credentials)) return;
     setLoading(true);
     const { email, password } = credentials;
-    const { error, data } = await supabase.auth.signInWithPassword({ email, password });
+    const { error, data } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) Alert.alert(error.message);
-    console.log( "ya entro", data);
+    console.log("Logged in", data);
     setLoading(false);
   };
 
+  // Check if a session exists
+  if (session) {
+    return (
+      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#121212" }}>
+        <Text style={{ color: "white", fontSize: 24 }}>Log Out</Text>
+      </SafeAreaView>
+    );
+  }
+
+  // Render welcome screen if no session
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -55,16 +70,6 @@ export default function Index() {
         <Text className="font-semibold font-rubik text-2xl text-violet">
           Where beautiful things happen!
         </Text>
-        {/* <TouchableOpacity className=" bg-white  shadow-md mt-10 py-4  shadow-zinc-300 rounded-full w-4/5">
-                  <View className="flex flex-row items-center gap-2 justify-center">
-                    <Image
-                      source={icons.google}
-                      className="w-5 h-5"
-                      resizeMode="contain"
-                      />
-                      <Text>Continue with Google</Text>
-                  </View>
-                </TouchableOpacity> */}
 
         <AuthForm
           loading={loading}
