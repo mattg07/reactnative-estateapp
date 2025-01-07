@@ -1,12 +1,11 @@
-import { SplashScreen, Tabs, Stack } from "expo-router";
-import { useState } from "react";
+import { useUserInfo } from "@/lib/userContext";
+import { SplashScreen, Stack, Tabs } from "expo-router";
 
 export default function TabsLayout() {
-  // Simulate authentication status (set to false for testing)
-  const isAuthenticated = true;
+  const { session } = useUserInfo();
 
-  // Conditional rendering of tabs based on authentication status
-  if (!isAuthenticated) {
+  // If not authenticated, show the stack with "index" as the main route
+  if (!session) {
     return (
       <Stack>
         <Stack.Screen
@@ -19,9 +18,10 @@ export default function TabsLayout() {
     );
   }
 
-  // Render Tabs if authenticated
+  // If authenticated, render the Tabs layout without "index"
   return (
     <Tabs
+      initialRouteName="explore" // Set "explore" as the default route
       screenOptions={{
         headerShown: false,
         tabBarStyle: {

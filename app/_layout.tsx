@@ -3,6 +3,7 @@ import "./globals.css";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
+import { AuthProvider } from "@/lib/userContext";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -21,6 +22,8 @@ export default function RootLayout() {
   }, [fontsLoaded]);
   if (!fontsLoaded) return null;
   return (
+   <AuthProvider>
+
   <SafeAreaView className="bg-white" style={{flex: 1, backgroundColor: "#121212"}}>
 
       <Stack
@@ -39,6 +42,7 @@ export default function RootLayout() {
           />
       </Stack>
           </SafeAreaView>
+          </AuthProvider> 
     
   );
 }

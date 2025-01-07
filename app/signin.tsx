@@ -9,7 +9,12 @@ import {
 import React from "react";
 import images from "@/constants/images";
 import icons from "@/constants/icons";
+
+import { supabase } from "@/lib/supabase";
 const SignIn = () => {
+
+
+
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView contentContainerClassName="h-full">
@@ -36,6 +41,7 @@ const SignIn = () => {
                 <Text>Continue with Google</Text>
             </View>
           </TouchableOpacity>
+          
         </View>
       </ScrollView>
     </SafeAreaView>

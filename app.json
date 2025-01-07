@@ -10,7 +10,8 @@
     "newArchEnabled": true,
     "backgroundColor": "#14206b",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.SupaSlug"
     },
     "android": {
       "adaptiveIcon": {
@@ -44,7 +45,7 @@
             "./assets/fonts/Rubik-Medium.ttf",
             "./assets/fonts/Rubik-Light.ttf",
             "./assets/fonts/Rubik-Regular.ttf",
-            "./assets/fonts/Rubik-SemiBold .ttf"
+            "./assets/fonts/Rubik-SemiBold.ttf"
           ]
         }
       ]
