@@ -20,8 +20,8 @@ export default function Index() {
   const handleSignUp = async (credentials: SignUpWithPasswordCredentials) => {
     if (!("email" in credentials)) return;
     setLoading(true);
-    const { email, password } = credentials;
-    const { error, data } = await supabase.auth.signUp({ email, password });
+    const { email, password, options } = credentials;
+    const { error, data } = await supabase.auth.signUp({ email, password, options });
     if (error) Alert.alert(error.message);
     console.log(data);
     setLoading(false);
@@ -54,7 +54,8 @@ export default function Index() {
         <Button
           onPress={() => supabase.auth.signOut()}
           title="Log Out"
-        ></Button>*
+        ></Button>
+        *
       </SafeAreaView>
     );
   }

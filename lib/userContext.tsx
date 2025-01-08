@@ -6,7 +6,7 @@ import { supabase } from "./supabase";
 
 export interface UserProfile {
   username: string;
-  avatarUrl: string;
+  avatarUrl: string ;
 }
 
 export interface UserInfo {
@@ -33,6 +33,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserInfo({session, profile: null})
     })
   }, []);
+
+  const getProfile = async () => {
+    if(!userInfo.session) return;
+    const {error, data} = await supabase.from('profiles').select('*').eq('id', userInfo.session.user.id)
+    if(error){
+      console.log(error)
+    }
+    else {
+      setUserInfo({...userInfo, profile: data[0]})
+    }
+  }
+
+  useEffect(() => {
+    getProfile()
+  }, [userInfo.session])
 
   return (
     <UserContext.Provider value={userInfo}>{children}</UserContext.Provider>
