@@ -11,12 +11,15 @@ export default function AddPostForm({ onSubmit }: Props) {
 
   return (
     <View style={{
-        backgroundColor: "#121211",
+        backgroundColor: "",
         borderRadius: 10,
         marginTop: 25,
         marginBottom: 20,
-    }} className="w-4/5 p-2">
-      <Text className="text-gray-200 font-semibold p-2">
+        width: 350,
+        padding: 8,
+    
+    }} >
+      <Text className="text-white font-semibold p-4">
       ¿  What are you thinking ?
       </Text>
       <TextInput
@@ -30,14 +33,16 @@ export default function AddPostForm({ onSubmit }: Props) {
         alignItems: "center"
       }} >
         <TouchableOpacity>
-            <Feather color="blue" name="image" size={22}/>
+            <Feather color="white" name="image" size={22}/>
         </TouchableOpacity>
       <Button
+      
         title="Publicar"
         onPress={() => {
             onSubmit(content);
             setContent("");
         }}
+        color={"white"}
         ></Button>
         </View>
     </View>
@@ -51,5 +56,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 10,
     paddingTop: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
