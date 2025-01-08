@@ -40,7 +40,7 @@ export default function PostCard({ post }: Props) {
 const styles = StyleSheet.create({
   container: {
     marginVertical: 8,
-    backgroundColor: "#37435C",
+    backgroundColor: "#37433C",
     width: 380,
     borderRadius: 20,
   },
