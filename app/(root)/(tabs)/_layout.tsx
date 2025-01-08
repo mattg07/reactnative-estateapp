@@ -1,5 +1,6 @@
 import { useUserInfo } from "@/lib/userContext";
-import { SplashScreen, Stack, Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function TabsLayout() {
   const { session } = useUserInfo();
@@ -10,16 +11,17 @@ export default function TabsLayout() {
           name="index"
           options={{
             headerShown: false,
+            
+            
           }}
         />
       </Stack>
     );
   }
 
-  // If authenticated, render the Tabs layout without "index"
   return (
     <Tabs
-      initialRouteName="explore" // Set "explore" as the default route
+      initialRouteName="explore"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -33,12 +35,18 @@ export default function TabsLayout() {
         name="explore"
         options={{
           headerTitle: "Explore",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="compass-outline" color={color} size={size} />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           headerTitle: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
         }}
       />
     </Tabs>
