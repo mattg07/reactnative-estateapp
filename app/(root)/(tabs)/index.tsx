@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Button,
 } from "react-native";
 
 export default function Index() {
@@ -42,8 +43,18 @@ export default function Index() {
   // Check if a session exists
   if (session) {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#121212" }}>
-        <Text style={{ color: "white", fontSize: 24 }}>Log Out</Text>
+      <SafeAreaView
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#121212",
+        }}
+      >
+        <Button
+          onPress={() => supabase.auth.signOut()}
+          title="Log Out"
+        ></Button>*
       </SafeAreaView>
     );
   }

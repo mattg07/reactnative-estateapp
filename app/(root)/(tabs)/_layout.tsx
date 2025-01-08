@@ -2,9 +2,7 @@ import { useUserInfo } from "@/lib/userContext";
 import { SplashScreen, Stack, Tabs } from "expo-router";
 
 export default function TabsLayout() {
-  // const { session } = useUserInfo();
-const session = true;
-  // If not authenticated, show the stack with "index" as the main route
+  const { session } = useUserInfo();
   if (!session) {
     return (
       <Stack>
