@@ -1,4 +1,4 @@
-import { FlatList, SafeAreaView, Text, View } from "react-native";
+import { Alert, FlatList, SafeAreaView, Text, View } from "react-native";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import AddPostForm from "@/components/AddPostForm";
@@ -30,6 +30,17 @@ export default function Explore() {
     }
   };
 
+  const handleDeletePost = async (id:string) => {
+const {error, data} = await supabase.from('Posts').delete().eq('id', id)
+    if(error){
+      Alert.alert("Server error", error.message)
+    }
+    else{
+      setPosts(posts.filter(post => post.id !== id))
+    }
+  
+  }
+
   console.log(posts);
   return (
     <SafeAreaView className="bg-background-100 h-full">
@@ -47,7 +58,7 @@ export default function Explore() {
           data={posts}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{paddingTop: 8}}
-          renderItem={({ item }) => <PostCard post={item} />}
+          renderItem={({ item }) => <PostCard post={item} onDelete={()=> handleDeletePost(item.id)} />}
         />
       </View>
     </SafeAreaView>

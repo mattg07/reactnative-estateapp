@@ -6,9 +6,10 @@ import { useUserInfo } from "@/lib/userContext";
 
 interface Props {
   post: Post;
+  onDelete :() => void;
 }
 
-export default function PostCard({ post }: Props) {
+export default function PostCard({ post, onDelete }: Props) {
   const profile = post.profile as unknown as Profile;
   const user = useUserInfo();
   return (
@@ -41,7 +42,7 @@ export default function PostCard({ post }: Props) {
             <Ionicons name="heart" size={20} color={"white"} />
           </TouchableOpacity>
           {user?.profile?.id === post.user_id  && (
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onDelete}>
               <Ionicons name="trash-bin" size={20} color={"red"} />
             </TouchableOpacity>
           )}
