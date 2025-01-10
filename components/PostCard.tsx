@@ -1,14 +1,16 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { Post, Profile } from "@/lib/api";
+import { Ionicons } from "@expo/vector-icons";
+import { useUserInfo } from "@/lib/userContext";
 
 interface Props {
   post: Post;
 }
 
 export default function PostCard({ post }: Props) {
-  const profile = post.profile as unknown as Profile
-  
+  const profile = post.profile as unknown as Profile;
+  const user = useUserInfo();
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -34,6 +36,16 @@ export default function PostCard({ post }: Props) {
             day: "numeric",
           })}
         </Text>
+        <View style={styles.footer}>
+          <TouchableOpacity>
+            <Ionicons name="heart" size={20} color={"white"} />
+          </TouchableOpacity>
+          {user?.profile?.id === post.user_id  && (
+            <TouchableOpacity>
+              <Ionicons name="trash-bin" size={20} color={"red"} />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -73,5 +85,10 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: "100%",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingTop: 14,
   },
 });

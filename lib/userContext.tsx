@@ -3,15 +3,13 @@
 import { Session } from "@supabase/supabase-js";
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { supabase } from "./supabase";
+import { Profile } from "./api";
 
-export interface UserProfile {
-  username: string;
-  avatarUrl: string ;
-}
+
 
 export interface UserInfo {
   session: Session | null;
-  profile: UserProfile | null;
+  profile: Profile| null;
 }
 
 const UserContext = createContext<UserInfo>({
