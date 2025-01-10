@@ -55,7 +55,7 @@ export default function Index() {
           onPress={() => supabase.auth.signOut()}
           title="Log Out"
         ></Button>
-        *
+        
       </SafeAreaView>
     );
   }

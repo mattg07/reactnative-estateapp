@@ -21,7 +21,7 @@ export default function Explore() {
       .insert({
         content,
       })
-      .select("*")
+      .select("*, profile: profiles(username)")
       .order("created_at", { ascending: false });
     if (error) {
       console.error(error);

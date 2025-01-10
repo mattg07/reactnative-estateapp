@@ -1,12 +1,14 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import React from "react";
-import { Post } from "@/lib/api";
+import { Post, Profile } from "@/lib/api";
 
 interface Props {
   post: Post;
 }
 
 export default function PostCard({ post }: Props) {
+  const profile = post.profile as unknown as Profile
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -14,7 +16,7 @@ export default function PostCard({ post }: Props) {
           style={styles.avatar}
           source={{ uri: "https://picsum.photos/536/354" }}
         />
-        <Text className="text-white">John Lennon</Text>
+        <Text className="text-white">{profile.username}</Text>
       </View>
       <View style={styles.content}>
         {post.images && (
