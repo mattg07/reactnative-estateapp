@@ -80,4 +80,5 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useUserInfo() {
   return useContext(UserContext);
+  
 }
