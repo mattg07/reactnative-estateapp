@@ -16,7 +16,7 @@ export interface UserInfo {
   session: Session | null;
   profile: Profile | null;
   loading?: boolean;
-  saveProfile?: (updatedProfile: Profile) => void;
+  saveProfile?: (updatedProfile: Profile, avatarUpdated: boolean) => void;
 }
 
 const UserContext = createContext<UserInfo>({
@@ -57,10 +57,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     getProfile();
   }, [userInfo.session]);
 
-  const saveProfile = async (updatedProfile: Profile) => {
+  const saveProfile = async (updatedProfile: Profile, avatarUpdated: boolean) => {
     setLoading(true);
     try {
-      if (updatedProfile.avatar_url) {
+      if (updatedProfile.avatar_url && avatarUpdated) {
         const { avatar_url } = updatedProfile;
 
         const fileExt = avatar_url.split(".").pop();

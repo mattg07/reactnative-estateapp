@@ -3,7 +3,7 @@ import { Database } from '@/types/db_types';
 import {supabase} from "./supabase"
 
 export const fetchPosts = async () => {
-    const { data, error } = await supabase.from("Posts").select("*, profile: profiles(username)");
+    const { data, error } = await supabase.from("Posts").select("*, profile: profiles(username, avatar_url)");
 
     if (error) {
       console.error(error);

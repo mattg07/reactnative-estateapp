@@ -15,7 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 
 interface ProfileFormProps {
   profile: Profile | null;
-  onSave: (updatedProfile: Profile) => void;
+  onSave: (updatedProfile: Profile, avatarUpdated : boolean) => void;
   onLogout: () => void;
   loading: boolean;
 }
@@ -28,7 +28,7 @@ export default function ProfileForm({
 }: ProfileFormProps) {
   const [username, setUsername] = useState("");
   const [avatarUrl, setAvatarUrl] = useState("");
-
+  const [avatarUpdated, setAvatarUpdated] = useState(false)
   useEffect(() => {
     if (profile?.username) {
       setUsername(profile.username);
@@ -40,7 +40,7 @@ export default function ProfileForm({
 
   const handleSubmit = () => {
     if (profile) {
-      onSave({ ...profile, username, avatar_url: avatarUrl });
+      onSave({ ...profile, username, avatar_url: avatarUrl }, avatarUpdated);
     }
   };
 
@@ -50,6 +50,7 @@ export default function ProfileForm({
     });
     if (!result.canceled) {
       setAvatarUrl(result.assets[0].uri);
+      setAvatarUpdated(true)
     }
   };
 

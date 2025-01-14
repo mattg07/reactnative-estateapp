@@ -1,8 +1,9 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import { Post, Profile } from "@/lib/api";
+import React, { useEffect, useState } from "react";
+import { downloadAvatar, Post, Profile } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useUserInfo } from "@/lib/userContext";
+import Avatar from "./Avatar";
 
 interface Props {
   post: Post;
@@ -12,13 +13,20 @@ interface Props {
 export default function PostCard({ post, onDelete }: Props) {
   const profile = post.profile as unknown as Profile;
   const user = useUserInfo();
+  const [avatarUrl, setAvatarUrl] = useState("")
+
+  useEffect(()=> {
+      if(profile){
+        downloadAvatar(profile.avatar_url as string).then(setAvatarUrl)
+      }
+  },[profile])
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          style={styles.avatar}
-          source={{ uri: "https://picsum.photos/536/354" }}
-        />
+
+        <Avatar uri={avatarUrl} /> 
         <Text className="text-white">{profile.username}</Text>
       </View>
       <View style={styles.content}>
