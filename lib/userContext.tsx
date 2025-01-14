@@ -59,15 +59,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const saveProfile = async (updatedProfile: Profile) => {
     setLoading(true);
-    const { data, error } = await supabase
-      .from("profiles")
-      .update(updatedProfile)
-      .eq("id", userInfo.profile!.id);
-    if (error) {
+    try {
+      if (updatedProfile.avatar_url) {
+        const { avatar_url } = updatedProfile;
+
+        const fileExt = avatar_url.split(".").pop();
+        const fileName = avatar_url.replace(/^.*[\\\/]/, "");
+        const filePath = `${Date.now()}.${fileExt}`;
+
+        const formData = new FormData();
+        const photo = {
+          uri: avatar_url,
+          name: fileName,
+          type: `image/${fileExt}`,
+        } as unknown as Blob;
+        formData.append("file", photo);
+
+        const { error } = await supabase.storage
+          .from("avatars")
+          .upload(filePath, formData);
+        if (error) throw error;
+        updatedProfile.avatar_url = filePath
+      }
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .update(updatedProfile)
+        .eq("id", userInfo.profile!.id);
+      if (error) {
+        throw error;
+      } else {
+        getProfile();
+      }
+    } catch (error: any) {
       Alert.alert("Server error", error.message);
-    } else {
-      getProfile()
     }
+
     setLoading(false);
   };
 
@@ -80,5 +107,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useUserInfo() {
   return useContext(UserContext);
-  
 }
