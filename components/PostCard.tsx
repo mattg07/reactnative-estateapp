@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { downloadAvatar, Post, Profile } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useUserInfo } from "@/lib/userContext";
 import Avatar from "./Avatar";
+import { supabase } from "@/lib/supabase";
 
 interface Props {
   post: Post;
@@ -14,12 +15,22 @@ export default function PostCard({ post, onDelete }: Props) {
   const profile = post.profile as unknown as Profile;
   const user = useUserInfo();
   const [avatarUrl, setAvatarUrl] = useState("")
+  const [likes, setLikes] = useState(0)
 
   useEffect(()=> {
       if(profile){
         downloadAvatar(profile.avatar_url as string).then(setAvatarUrl)
       }
   },[profile])
+
+  const toggleLike = async () => {
+    if(!user.profile) return;
+  const {error} =   await supabase.from('posts_likes').insert({
+      post_id : post.id,
+      user_id : user?.profile.id
+    })
+    if(error) Alert.alert("Server Error", error.message)
+  }
 
 
   return (
@@ -46,9 +57,14 @@ export default function PostCard({ post, onDelete }: Props) {
           })}
         </Text>
         <View style={styles.footer}>
-          <TouchableOpacity>
+          <TouchableOpacity 
+            onPress={toggleLike}
+          style={{flexDirection: "row", alignItems: "center"}}>
             <Ionicons name="heart" size={20} color={"white"} />
-          </TouchableOpacity>
+            <Text style= {{paddingLeft: 4, color: "white"}}>
+              {likes}
+            </Text>
+          </TouchableOpacity >
           {user?.profile?.id === post.user_id  && (
             <TouchableOpacity onPress={onDelete}>
               <Ionicons name="trash-bin" size={20} color={"red"} />
