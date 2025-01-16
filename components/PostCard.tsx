@@ -1,6 +1,13 @@
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useEffect, useState } from "react";
-import { downloadAvatar, Post, Profile } from "@/lib/api";
+import {
+  Alert,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { downloadAvatar, fetchLikes, Likes, Post, Profile } from "@/lib/api";
 import { Ionicons } from "@expo/vector-icons";
 import { useUserInfo } from "@/lib/userContext";
 import Avatar from "./Avatar";
@@ -8,36 +15,56 @@ import { supabase } from "@/lib/supabase";
 
 interface Props {
   post: Post;
-  onDelete :() => void;
+  onDelete: () => void;
 }
 
 export default function PostCard({ post, onDelete }: Props) {
   const profile = post.profile as unknown as Profile;
   const user = useUserInfo();
-  const [avatarUrl, setAvatarUrl] = useState("")
-  const [likes, setLikes] = useState(0)
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [likes, setLikes] = useState<Likes>([]);
 
-  useEffect(()=> {
-      if(profile){
-        downloadAvatar(profile.avatar_url as string).then(setAvatarUrl)
-      }
-  },[profile])
+  const userLikesPost = useMemo(
+    () => likes?.find((like) => like.user_id === user?.profile?.id),
+    [likes, user]
+  );
+
+  useEffect(() => {
+    if (profile) {
+      downloadAvatar(profile.avatar_url as string).then(setAvatarUrl);
+    }
+  }, [profile]);
 
   const toggleLike = async () => {
-    if(!user.profile) return;
-  const {error} =   await supabase.from('posts_likes').insert({
-      post_id : post.id,
-      user_id : user?.profile.id
-    })
-    if(error) Alert.alert("Server Error", error.message)
-  }
+    if (!user.profile) return;
+    if (userLikesPost) {
+      const { error } = await supabase
+        .from("posts_likes")
+        .delete()
+        .eq("id", userLikesPost.id);
+    } else {
+      const { error } = await supabase.from("posts_likes").insert({
+        post_id: post.id,
+        user_id: user?.profile.id,
+      });
+      if (error) Alert.alert("Server Error", error.message);
+    }
+    getLikes()
+  };
 
+  const getLikes = useCallback(
+    () => fetchLikes(post.id).then(setLikes),
+    [post]
+  );
+
+  useEffect(() => {
+    getLikes();
+  }, [getLikes]);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-
-        <Avatar uri={avatarUrl} /> 
+        <Avatar uri={avatarUrl} />
         <Text className="text-white">{profile.username}</Text>
       </View>
       <View style={styles.content}>
@@ -57,15 +84,20 @@ export default function PostCard({ post, onDelete }: Props) {
           })}
         </Text>
         <View style={styles.footer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={toggleLike}
-          style={{flexDirection: "row", alignItems: "center"}}>
-            <Ionicons name="heart" size={20} color={"white"} />
-            <Text style= {{paddingLeft: 4, color: "white"}}>
-              {likes}
+            style={{ flexDirection: "row", alignItems: "center" }}
+          >
+            <Ionicons
+              name={userLikesPost ? "heart" : "heart-outline"}
+              size={20}
+              color={"white"}
+            />
+            <Text style={{ paddingLeft: 4, color: "white" }}>
+              {likes.length}
             </Text>
-          </TouchableOpacity >
-          {user?.profile?.id === post.user_id  && (
+          </TouchableOpacity>
+          {user?.profile?.id === post.user_id && (
             <TouchableOpacity onPress={onDelete}>
               <Ionicons name="trash-bin" size={20} color={"red"} />
             </TouchableOpacity>
