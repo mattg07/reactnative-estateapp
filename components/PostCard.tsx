@@ -65,7 +65,7 @@ export default function PostCard({ post, onDelete }: Props) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Avatar uri={avatarUrl} />
-        <Text className="text-white">{profile.username}</Text>
+        <Text style={styles.username}>{profile.username}</Text>
       </View>
       <View style={styles.content}>
         {post.images && (
@@ -76,7 +76,7 @@ export default function PostCard({ post, onDelete }: Props) {
         <Text className="text-white" style={styles.contentText}>
           {post.content}
         </Text>
-        <Text className="text-white text-xs opacity-25">
+        <Text style={styles.date} className="text-white text-xs opacity-25">
           {new Date(post.created_at).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
@@ -121,6 +121,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginRight: 8,
   },
+  username: {
+    color: "white",
+    paddingLeft: 5,
+  },
   header: {
     flexDirection: "row",
     alignItems: "center",
@@ -132,6 +136,11 @@ const styles = StyleSheet.create({
   },
   contentText: {
     fontSize: 16,
+    marginTop: 6,
+    marginBottom: 2,
+  },
+  date: {
+    opacity: 0.7
   },
 
   imageContainer: {

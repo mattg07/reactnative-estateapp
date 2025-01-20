@@ -14,8 +14,8 @@ export default function ProfileScreen() {
 
   return (
     <SafeAreaView className="bg-background-100 h-full">
-        <Text className="text-white text-xl font-bold">
-          {profile?.username}
+        <Text className="text-white text-xl m-auto font-bold">
+      Profile
         </Text>
       <ProfileForm
         profile={profile}

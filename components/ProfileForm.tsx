@@ -67,6 +67,7 @@ export default function ProfileForm({
                 <Avatar uri={avatarUrl} size={120} />
               </TouchableOpacity>
               <TextInput
+              className="text-white "
                 placeholder="Nombre de usuario"
                 value={username}
                 onChangeText={setUsername}
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     color: "white",
     textDecorationColor: "white",
+    alignItems: "center",
   },
   avatarButton: {
     alignItems: "center",
