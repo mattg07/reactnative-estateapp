@@ -4,6 +4,7 @@
     "slug": "native-project",
     "version": "1.0.0",
     "orientation": "portrait",
+    "main": "./src/app/(root)/(tabs)/explore.tsx",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
@@ -15,8 +16,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/icon.png"
       },
       "package": "com.anonymous.SupaSlug"
     },

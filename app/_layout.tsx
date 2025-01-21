@@ -22,27 +22,25 @@ export default function RootLayout() {
   }, [fontsLoaded]);
   if (!fontsLoaded) return null;
   return (
-   <AuthProvider>
-
-  <SafeAreaView className="bg-white" style={{flex: 1, backgroundColor: "#121212"}}>
-
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: "#121212" },
-        }}
-        >
-
-        <Stack.Screen
-          name="(tabs)"
-          options={{
-            headerTitle: "Sicker Smash",
-            headerLeft: () => <></>,
+    <AuthProvider>
+      <SafeAreaView
+        className="bg-white"
+        style={{ flex: 1, backgroundColor: "#121212" }}
+      >
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { padding: 0, margin: 0, backgroundColor: "#121212" }, // Reset padding/margin
           }}
+        >
+          <Stack.Screen
+            name="(root)/(tabs)"
+            options={{
+              headerShown: false,
+            }}
           />
-      </Stack>
-          </SafeAreaView>
-          </AuthProvider> 
-    
+        </Stack>
+      </SafeAreaView>
+    </AuthProvider>
   );
 }

@@ -13,7 +13,7 @@ import {
   Button,
 } from "react-native";
 
-export default function Index() {
+export default function General() {
   const [loading, setLoading] = useState(false);
   const { session } = useUserInfo(); // Get session from context
 

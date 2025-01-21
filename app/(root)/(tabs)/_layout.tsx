@@ -8,11 +8,9 @@ export default function TabsLayout() {
     return (
       <Stack>
         <Stack.Screen
-          name="index"
+          name="general"
           options={{
             headerShown: false,
-            
-            
           }}
         />
       </Stack>
@@ -26,11 +24,22 @@ export default function TabsLayout() {
         headerShown: false,
         tabBarStyle: {
           backgroundColor: "#121212",
+          borderTopWidth: 0,
         },
-        tabBarActiveTintColor: "white",
+        tabBarActiveTintColor: "white", 
         tabBarInactiveTintColor: "gray",
       }}
     >
+      <Tabs.Screen
+        name="profile"
+        options={{
+          headerTitle: "Profile",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person-outline" color={color} size={size} />
+          ),
+        }}
+      />
+
       <Tabs.Screen
         name="explore"
         options={{
@@ -40,12 +49,12 @@ export default function TabsLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="profile"
+            <Tabs.Screen
+        name="general"
         options={{
-          headerTitle: "Profile",
+          headerTitle: "General",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person-outline" color={color} size={size} />
+            <Ionicons name="home-outline" color={color} size={size} />
           ),
         }}
       />
